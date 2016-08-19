@@ -29,7 +29,6 @@ object data_load{
       .appName("data_load")
       .getOrCreate()
 
-    val spar
 
     import spark.implicits._
 
