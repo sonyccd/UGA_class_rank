@@ -1,44 +1,28 @@
 
 
-// $example on:schema_inferring$
 import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.Encoder
-// $example off:schema_inferring$
 import org.apache.spark.sql.Row
-// $example on:init_session$
 import org.apache.spark.sql.SparkSession
-// $example off:init_session$
-// $example on:programmatic_schema$
-// $example on:data_types$
 import org.apache.spark.sql.types._
-// $example off:data_types$
-// $example off:programmatic_schema$
 
 object data_load{
 
-  // $example on:create_ds$
-  // Note: Case classes in Scala 2.10 can support only up to 22 fields. To work around this limit,
-  // you can use custom classes that implement the Product interface
+  /**
+    * @note Note: Case classes in Scala 2.10 can support only up to 22 fields. To work around this limit,
+    *       you can use custom classes that implement the Product interface
+    * @param name
+    * @param age
+    */
   case class Person(name: String, age: Long)
-  // $example off:create_ds$
 
   def main(args: Array[String]) {
-    // $example on:init_session$
     val spark = SparkSession
       .builder()
       .appName("data_load")
       .getOrCreate()
-
-
     import spark.implicits._
-
-    runBasicDataFrameExample(spark)
-    runDatasetCreationExample(spark)
-    runInferSchemaExample(spark)
-    runProgrammaticSchemaExample(spark)
-
     readSavedTabel(spark)
-
     spark.stop()
   }
 
@@ -48,8 +32,12 @@ object data_load{
     df.show()
   }
 
+
+  /**
+    *
+    * @param spark
+    */
   private def runBasicDataFrameExample(spark: SparkSession): Unit = {
-    // $example on:create_df$
     val df = spark.read.json("/Applications/spark-2.0.0-bin-hadoop2.7/examples/src/main/resources/people.json")
 
     // Displays the content of the DataFrame to stdout
